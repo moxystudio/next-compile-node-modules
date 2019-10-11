@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const compileNodeModulesPlugin = require('../index');
 
 const createWebpackConfig = () => ({
@@ -7,13 +8,7 @@ const createWebpackConfig = () => ({
         rules: [
             {
                 test: /\.(tsx|ts|js|mjs|jsx)$/,
-                include: [
-                    '/path/to/project',
-                    /next[\\/]dist[\\/]next-server[\\/]lib/,
-                    /next[\\/]dist[\\/]client/,
-                    /next[\\/]dist[\\/]pages/,
-                    /[\\/](strip-ansi|ansi-regex)[\\/]/,
-                ],
+                include: ['/path/to/project'],
                 exclude: () => {},
                 use: {
                     loader: 'next-babel-loader',
@@ -32,8 +27,15 @@ const createWebpackConfig = () => ({
 
 it('should duplicate the default JS rule', () => {
     const config = compileNodeModulesPlugin()().webpack(createWebpackConfig());
+    const rule = config.module.rules[1];
 
-    expect(config.module.rules).toMatchSnapshot();
+    expect(rule.test.toString()).toBe('/\\.js$/');
+    expect(rule.include.toString()).toMatch(/\bnode_modules\b/);
+    expect(rule.use.options.distDir).toBe(path.join('/path/to/project/.next', 'compile-node-modules'));
+    expect(rule.use.options.caller).toEqual({ isNodeModule: true });
+
+    // Test if the first rule is untouched
+    expect(config.module.rules[0].include).toEqual(['/path/to/project']);
 });
 
 it('should throw if the JS rule was not found', () => {
@@ -53,7 +55,11 @@ it('should allow to override the rule\'s test, include and exclude properties', 
 
     const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig());
 
-    expect(config.module.rules).toMatchSnapshot();
+    const rule = config.module.rules[1];
+
+    expect(rule.test).toBe('my-test');
+    expect(rule.include).toBe('my-include');
+    expect(rule.exclude).toBe('my-exclude');
 });
 
 it('should call nextConfig webpack if defined', () => {
