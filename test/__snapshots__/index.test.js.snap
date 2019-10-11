@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should allow to override the rule's test, include and exclude properties 1`] = `
+Array [
+  Object {
+    "exclude": [Function],
+    "include": Array [
+      "/path/to/project",
+      /next\\[\\\\\\\\\\\\/\\]dist\\[\\\\\\\\\\\\/\\]next-server\\[\\\\\\\\\\\\/\\]lib/,
+      /next\\[\\\\\\\\\\\\/\\]dist\\[\\\\\\\\\\\\/\\]client/,
+      /next\\[\\\\\\\\\\\\/\\]dist\\[\\\\\\\\\\\\/\\]pages/,
+      /\\[\\\\\\\\\\\\/\\]\\(strip-ansi\\|ansi-regex\\)\\[\\\\\\\\\\\\/\\]/,
+    ],
+    "test": /\\\\\\.\\(tsx\\|ts\\|js\\|mjs\\|jsx\\)\\$/,
+    "use": Object {
+      "loader": "next-babel-loader",
+      "options": Object {
+        "cache": true,
+        "cwd": "/path/to/project",
+        "distDir": "/path/to/project/.next",
+        "hasModern": false,
+        "isServer": true,
+      },
+    },
+  },
+  Object {
+    "exclude": "my-exclude",
+    "include": "my-include",
+    "test": "my-test",
+    "use": Object {
+      "loader": "next-babel-loader",
+      "options": Object {
+        "cache": true,
+        "caller": Object {
+          "isNodeModule": true,
+        },
+        "cwd": "/path/to/project",
+        "distDir": "/path/to/project/.next/compile-node-modules",
+        "hasModern": false,
+        "isServer": true,
+      },
+    },
+  },
+]
+`;
+
+exports[`should duplicate the default JS rule 1`] = `
+Array [
+  Object {
+    "exclude": [Function],
+    "include": Array [
+      "/path/to/project",
+      /next\\[\\\\\\\\\\\\/\\]dist\\[\\\\\\\\\\\\/\\]next-server\\[\\\\\\\\\\\\/\\]lib/,
+      /next\\[\\\\\\\\\\\\/\\]dist\\[\\\\\\\\\\\\/\\]client/,
+      /next\\[\\\\\\\\\\\\/\\]dist\\[\\\\\\\\\\\\/\\]pages/,
+      /\\[\\\\\\\\\\\\/\\]\\(strip-ansi\\|ansi-regex\\)\\[\\\\\\\\\\\\/\\]/,
+    ],
+    "test": /\\\\\\.\\(tsx\\|ts\\|js\\|mjs\\|jsx\\)\\$/,
+    "use": Object {
+      "loader": "next-babel-loader",
+      "options": Object {
+        "cache": true,
+        "cwd": "/path/to/project",
+        "distDir": "/path/to/project/.next",
+        "hasModern": false,
+        "isServer": true,
+      },
+    },
+  },
+  Object {
+    "exclude": undefined,
+    "include": /\\[\\\\\\\\\\\\/\\]node_modules\\[\\\\\\\\\\\\/\\]/,
+    "test": /\\\\\\.js\\$/,
+    "use": Object {
+      "loader": "next-babel-loader",
+      "options": Object {
+        "cache": true,
+        "caller": Object {
+          "isNodeModule": true,
+        },
+        "cwd": "/path/to/project",
+        "distDir": "/path/to/project/.next/compile-node-modules",
+        "hasModern": false,
+        "isServer": true,
+      },
+    },
+  },
+]
+`;
