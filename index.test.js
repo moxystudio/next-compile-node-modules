@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const compileNodeModulesPlugin = require('../index');
+const compileNodeModulesPlugin = require('./index');
 
 const createWebpackConfig = () => ({
     module: {
