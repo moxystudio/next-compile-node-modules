@@ -81,6 +81,12 @@ module.exports = (api) => {
 };
 ```
 
+### External dependencies
+
+We're removing the property `externals` from the `webpack` configuration in order to include external dependencies in the bundle of our applications.
+This ensures all the dependencies are compiled according to our targets.
+More information in [Webpack's documentation](https://webpack.js.org/configuration/externals/).
+
 ## Tests
 
 Any parameter passed to the `test` command, is passed down to Jest.
