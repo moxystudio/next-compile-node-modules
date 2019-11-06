@@ -23,6 +23,7 @@ const createWebpackConfig = () => ({
             },
         ],
     },
+    externals: () => {},
 });
 
 it('should duplicate the default JS rule', () => {
@@ -71,4 +72,10 @@ it('should call nextConfig webpack if defined', () => {
 
     expect(nextConfig.webpack).toHaveBeenCalledTimes(1);
     expect(config).toBe('foo');
+});
+
+it('shouldn\'t call externals', () => {
+    const config = compileNodeModulesPlugin()().webpack(createWebpackConfig());
+
+    expect(config).not.toHaveProperty('externals');
 });

@@ -37,6 +37,7 @@ const withCompileNodeModules = (userOptions = {}) => (nextConfig = {}) => ({
         const jsRuleNodeModules = copyJsRule(jsRule, userOptions);
 
         config.module.rules.splice(jsRuleIndex + 1, 0, jsRuleNodeModules);
+        delete config.externals;
 
         if (typeof nextConfig.webpack === 'function') {
             return nextConfig.webpack(config, options);
