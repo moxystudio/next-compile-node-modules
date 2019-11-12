@@ -37,7 +37,14 @@ const withCompileNodeModules = (userOptions = {}) => (nextConfig = {}) => ({
         const jsRuleNodeModules = copyJsRule(jsRule, userOptions);
 
         config.module.rules.splice(jsRuleIndex + 1, 0, jsRuleNodeModules);
-        delete config.externals;
+
+        if (options.isServer) {
+            // This is needed since Next.js requires the React to be the same instance in every page.
+            // Otherwise, React would be injected individually in every page and using
+            // React Hooks would throw: Invalid Hook Call Warning (https://reactjs.org/warnings/invalid-hook-call-warning.html)
+            // Regex copied from https://github.com/zeit/next.js/blob/154d78461ce2598d6e12343b452b45071a323d11/packages/next/build/webpack-config.ts#L295
+            config.externals = /^(react|react-dom|scheduler|use-subscription)$/i;
+        }
 
         if (typeof nextConfig.webpack === 'function') {
             return nextConfig.webpack(config, options);
