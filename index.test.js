@@ -3,6 +3,10 @@
 const path = require('path');
 const compileNodeModulesPlugin = require('./index');
 
+const webpackOptions = {
+    isServer: false,
+};
+
 const createWebpackConfig = () => ({
     module: {
         rules: [
@@ -27,7 +31,7 @@ const createWebpackConfig = () => ({
 });
 
 it('should duplicate the default JS rule', () => {
-    const config = compileNodeModulesPlugin()().webpack(createWebpackConfig());
+    const config = compileNodeModulesPlugin()().webpack(createWebpackConfig(), webpackOptions);
     const rule = config.module.rules[1];
 
     expect(rule.test.toString()).toBe('/\\.js$/');
@@ -44,7 +48,7 @@ it('should throw if the JS rule was not found', () => {
 
     noGoodRuleConfig.module.rules[0].use.loader = 'bad-loader';
 
-    expect(() => compileNodeModulesPlugin()().webpack(noGoodRuleConfig)).toThrow(/JS rule/);
+    expect(() => compileNodeModulesPlugin()().webpack(noGoodRuleConfig, webpackOptions)).toThrow(/JS rule/);
 });
 
 it('should allow to override the rule\'s test, include and exclude properties', () => {
@@ -54,7 +58,7 @@ it('should allow to override the rule\'s test, include and exclude properties', 
         exclude: 'my-exclude',
     };
 
-    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig());
+    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), webpackOptions);
 
     const rule = config.module.rules[1];
 
@@ -68,14 +72,20 @@ it('should call nextConfig webpack if defined', () => {
         webpack: jest.fn(() => 'foo'),
     };
 
-    const config = compileNodeModulesPlugin()(nextConfig).webpack(createWebpackConfig());
+    const config = compileNodeModulesPlugin()(nextConfig).webpack(createWebpackConfig(), webpackOptions);
 
     expect(nextConfig.webpack).toHaveBeenCalledTimes(1);
     expect(config).toBe('foo');
 });
 
-it('shouldn\'t call externals', () => {
-    const config = compileNodeModulesPlugin()().webpack(createWebpackConfig());
+it('should only have react packages in externals', () => {
+    const config = compileNodeModulesPlugin()().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+    });
 
-    expect(config).not.toHaveProperty('externals');
+    expect(config.externals.test('react')).toBeTruthy();
+    expect(config.externals.test('react-dom')).toBeTruthy();
+    expect(config.externals.test('scheduler')).toBeTruthy();
+    expect(config.externals.test('use-subscription')).toBeTruthy();
 });
