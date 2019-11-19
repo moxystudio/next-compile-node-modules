@@ -62,6 +62,9 @@ module.exports = withCSS(
 | test | The Webpack rule test condition | [Rule.test](https://webpack.js.org/configuration/module/#ruletest) | `/\.js$/` |
 | include | The Webpack rule include condition | [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude) | `/[\\/]node_modules[\\/]/` |
 | exclude | The Webpack rule exclude condition | [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude) | |
+| serverExternals | Prepend additional externals dependencies besides the built-in**¹** ones. This option is ignored in the client build or when target is serverless | Any [supported types](https://webpack.js.org/configuration/externals/)
+
+**¹** Built-in ones are modules related to react, preventing React from being bundled individually in each page which would cause issues such as "React Hooks would throw: Invalid Hook Call Warning".
 
 ### Custom babel config
 

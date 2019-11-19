@@ -1,10 +1,13 @@
 'use strict';
 
-const path = require('path');
 const compileNodeModulesPlugin = require('./index');
 
 const webpackOptions = {
+    dir: 'my-project',
     isServer: false,
+    config: {
+        distDir: '.next',
+    },
 };
 
 const createWebpackConfig = () => ({
@@ -36,7 +39,7 @@ it('should duplicate the default JS rule', () => {
 
     expect(rule.test.toString()).toBe('/\\.js$/');
     expect(rule.include.toString()).toMatch(/\bnode_modules\b/);
-    expect(rule.use.options.distDir).toBe(path.join('/path/to/project/.next', 'compile-node-modules'));
+    expect(rule.use.options.distDir).toBe('my-project/.next/cache/compile-node-modules-plugin');
     expect(rule.use.options.caller).toEqual({ isNodeModule: true });
 
     // Test if the first rule is untouched
@@ -78,14 +81,60 @@ it('should call nextConfig webpack if defined', () => {
     expect(config).toBe('foo');
 });
 
-it('should only have react packages in externals', () => {
+it('should only have react packages in server externals by default', () => {
     const config = compileNodeModulesPlugin()().webpack(createWebpackConfig(), {
         ...webpackOptions,
         isServer: true,
     });
 
-    expect(config.externals.test('react')).toBeTruthy();
-    expect(config.externals.test('react-dom')).toBeTruthy();
-    expect(config.externals.test('scheduler')).toBeTruthy();
-    expect(config.externals.test('use-subscription')).toBeTruthy();
+    const external = config.externals && config.externals[0];
+
+    expect(external).toBeDefined();
+    expect(external.test('react')).toBeTruthy();
+    expect(external.test('react-dom')).toBeTruthy();
+    expect(external.test('scheduler')).toBeTruthy();
+    expect(external.test('use-subscription')).toBeTruthy();
+});
+
+it('should unshift custom server externals (single)', () => {
+    const options = {
+        serverExternals: 'foo',
+    };
+
+    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+    });
+
+    expect(config.externals).toHaveLength(2);
+    expect(config.externals[0]).toBe('foo');
+});
+
+it('should unshift custom server externals (array)', () => {
+    const options = {
+        serverExternals: ['foo', 'bar'],
+    };
+
+    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+    });
+
+    expect(config.externals).toHaveLength(3);
+    expect(config.externals[0]).toBe('foo');
+    expect(config.externals[1]).toBe('bar');
+});
+
+it('should leave externals untouched when serverless', () => {
+    const options = {
+        serverExternals: ['foo', 'bar'],
+    };
+
+    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+        target: 'serverless',
+    });
+
+    expect(typeof config.externals).toBe('function');
 });
