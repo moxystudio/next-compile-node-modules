@@ -81,19 +81,23 @@ it('should call nextConfig webpack if defined', () => {
     expect(config).toBe('foo');
 });
 
-it('should only have react packages in server externals by default', () => {
+it('should have pre-configured server externals', () => {
     const config = compileNodeModulesPlugin()().webpack(createWebpackConfig(), {
         ...webpackOptions,
         isServer: true,
     });
 
-    const external = config.externals && config.externals[0];
+    const nativeBinary = config.externals && config.externals[0];
+    const react = config.externals && config.externals[1];
 
-    expect(external).toBeDefined();
-    expect(external.test('react')).toBeTruthy();
-    expect(external.test('react-dom')).toBeTruthy();
-    expect(external.test('scheduler')).toBeTruthy();
-    expect(external.test('use-subscription')).toBeTruthy();
+    expect(nativeBinary).toBeDefined();
+    expect(nativeBinary.test('foo.node')).toBeTruthy();
+
+    expect(react).toBeDefined();
+    expect(react.test('react')).toBeTruthy();
+    expect(react.test('react-dom')).toBeTruthy();
+    expect(react.test('scheduler')).toBeTruthy();
+    expect(react.test('use-subscription')).toBeTruthy();
 });
 
 it('should unshift custom server externals (single)', () => {
@@ -106,7 +110,7 @@ it('should unshift custom server externals (single)', () => {
         isServer: true,
     });
 
-    expect(config.externals).toHaveLength(2);
+    expect(config.externals).toHaveLength(3);
     expect(config.externals[0]).toBe('foo');
 });
 
@@ -120,7 +124,7 @@ it('should unshift custom server externals (array)', () => {
         isServer: true,
     });
 
-    expect(config.externals).toHaveLength(3);
+    expect(config.externals).toHaveLength(4);
     expect(config.externals[0]).toBe('foo');
     expect(config.externals[1]).toBe('bar');
 });
