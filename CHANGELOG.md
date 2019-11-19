@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/moxystudio/next-compile-node-modules/compare/v1.2.0...v1.3.0) (2019-11-19)
+
+
+### Features
+
+* externalize native extensions ([#6](https://github.com/moxystudio/next-compile-node-modules/issues/6)) ([ac1b060](https://github.com/moxystudio/next-compile-node-modules/commit/ac1b0600997dfe5ba2be62fafe3e6bc190a9c4db))
+
 ## [1.2.0](https://github.com/moxystudio/next-compile-node-modules/compare/v1.1.1...v1.2.0) (2019-11-19)
 
 
