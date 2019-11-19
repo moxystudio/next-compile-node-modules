@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/moxystudio/next-compile-node-modules/compare/v1.1.1...v1.2.0) (2019-11-19)
+
+
+### Features
+
+* add ability to declare additional server externals ([#5](https://github.com/moxystudio/next-compile-node-modules/issues/5)) ([16f548d](https://github.com/moxystudio/next-compile-node-modules/commit/16f548deab7352763f1c0b2db03d482734970c58))
+
 ### [1.1.1](https://github.com/moxystudio/next-compile-node-modules/compare/v1.1.0...v1.1.1) (2019-11-13)
 
 
