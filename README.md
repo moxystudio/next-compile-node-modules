@@ -6,7 +6,7 @@
 [downloads-image]:https://img.shields.io/npm/dm/@moxy/next-compile-node-modules.svg
 [npm-image]:https://img.shields.io/npm/v/@moxy/next-compile-node-modules.svg
 [travis-url]:https://travis-ci.org/moxystudio/next-compile-node-modules
-[travis-image]:http://img.shields.io/travis/moxystudio/next-compile-node-modules/master.svg
+[travis-image]:https://img.shields.io/travis/moxystudio/next-compile-node-modules/master.svg
 [codecov-url]:https://codecov.io/gh/moxystudio/next-compile-node-modules
 [codecov-image]:https://img.shields.io/codecov/c/github/moxystudio/next-compile-node-modules/master.svg
 [david-dm-url]:https://david-dm.org/moxystudio/next-compile-node-modules
@@ -101,4 +101,4 @@ $ npm t -- --watch # during development
 
 ## License
 
-Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+Released under the [MIT License](https://www.opensource.org/licenses/mit-license.php).
