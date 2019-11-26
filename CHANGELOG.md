@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.0...v1.3.1) (2019-11-26)
+
+
+### Bug Fixes
+
+* do not externalize next alias, such as config and router ([#7](https://github.com/moxystudio/next-compile-node-modules/issues/7)) ([d33cb21](https://github.com/moxystudio/next-compile-node-modules/commit/d33cb21afa058c2b792bb74d446131631e7ec73f))
+
 ## [1.3.0](https://github.com/moxystudio/next-compile-node-modules/compare/v1.2.0...v1.3.0) (2019-11-19)
 
 
