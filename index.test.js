@@ -11,6 +11,11 @@ const webpackOptions = {
 };
 
 const createWebpackConfig = () => ({
+    resolve: {
+        alias: {
+            foo: 'bar',
+        },
+    },
     module: {
         rules: [
             {
@@ -87,8 +92,11 @@ it('should have pre-configured server externals', () => {
         isServer: true,
     });
 
-    const nativeBinary = config.externals && config.externals[0];
-    const react = config.externals && config.externals[1];
+    const alias = config.externals && config.externals[0];
+    const nativeBinary = config.externals && config.externals[1];
+    const react = config.externals && config.externals[2];
+
+    expect(alias).toBe('foo');
 
     expect(nativeBinary).toBeDefined();
     expect(nativeBinary.test('foo.node')).toBeTruthy();
@@ -110,7 +118,7 @@ it('should unshift custom server externals (single)', () => {
         isServer: true,
     });
 
-    expect(config.externals).toHaveLength(3);
+    expect(config.externals).toHaveLength(4);
     expect(config.externals[0]).toBe('foo');
 });
 
@@ -124,7 +132,7 @@ it('should unshift custom server externals (array)', () => {
         isServer: true,
     });
 
-    expect(config.externals).toHaveLength(4);
+    expect(config.externals).toHaveLength(5);
     expect(config.externals[0]).toBe('foo');
     expect(config.externals[1]).toBe('bar');
 });

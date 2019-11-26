@@ -50,6 +50,8 @@ const withCompileNodeModules = (options = {}) => {
             if (isServer && !isServerless) {
                 config.externals = [
                     ...Array.isArray(serverExternals) ? serverExternals : [serverExternals],
+                    // Prevent multiple router provider/context and config modules from being present in the same process, leading to subtle errors.
+                    ...Object.keys(config.resolve.alias),
                     // Ignore native extensions binary files, since they can't be bundled by webpack
                     /\.node$/,
                     // This is needed since Next.js requires the React to be the same instance in every page.
