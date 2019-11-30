@@ -42,7 +42,7 @@ const withCompileNodeModules = (options = {}) => {
     return (nextConfig = {}) => ({
         ...nextConfig,
         webpack: (config, options) => {
-            const { isServer, target } = options;
+            const { isServer, target, config: { experimental } } = options;
             const isServerless = target === 'serverless';
 
             copyJsRule(config, options, ruleOptions);
@@ -50,15 +50,28 @@ const withCompileNodeModules = (options = {}) => {
             if (isServer && !isServerless) {
                 config.externals = [
                     ...Array.isArray(serverExternals) ? serverExternals : [serverExternals],
-                    // Prevent multiple router provider/context and config modules from being present in the same process, leading to subtle errors.
+                    // Prevent multiple router provider/context and config modules from being present in the same process,
+                    // leading to subtle errors
                     ...Object.keys(config.resolve.alias),
-                    // Ignore native extensions binary files, since they can't be bundled by webpack
-                    /\.node$/,
-                    // This is needed since Next.js requires the React to be the same instance in every page.
-                    // Otherwise, React would be injected individually in every page and using
-                    // React Hooks would throw: Invalid Hook Call Warning (https://reactjs.org/warnings/invalid-hook-call-warning.html)
+                    // This is needed since Next.js requires the React to be the same instance in every page
+                    // Otherwise, React would be injected individually in every page and using React Hooks would throw:
+                    // Invalid Hook Call Warning (https://reactjs.org/warnings/invalid-hook-call-warning.html)
                     // Regex copied from https://github.com/zeit/next.js/blob/154d78461ce2598d6e12343b452b45071a323d11/packages/next/build/webpack-config.ts#L295
                     /^(react|react-dom|scheduler|use-subscription)$/i,
+                    // The two entries below are copied from https://github.com/zeit/next.js/blob/04a7f1e85d34c72a3d45a05f4ca9d158ef1b5af0/packages/next/build/webpack-config.ts#L627
+                    '@ampproject/toolbox-optimizer',
+                    /* istanbul ignore next */
+                    (context, request, callback) => {
+                        if (
+                            request === 'react-ssr-prepass' &&
+                            !experimental.ampBindInitData &&
+                            context.replace(/\\/g, '/').includes('next-server/server')
+                        ) {
+                            return callback(undefined, `commonjs ${request}`);
+                        }
+
+                        return callback();
+                    },
                 ];
             }
 

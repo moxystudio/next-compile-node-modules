@@ -7,6 +7,7 @@ const webpackOptions = {
     isServer: false,
     config: {
         distDir: '.next',
+        experimental: {},
     },
 };
 
@@ -92,25 +93,12 @@ it('should have pre-configured server externals', () => {
         isServer: true,
     });
 
-    const alias = config.externals && config.externals[0];
-    const nativeBinary = config.externals && config.externals[1];
-    const react = config.externals && config.externals[2];
-
-    expect(alias).toBe('foo');
-
-    expect(nativeBinary).toBeDefined();
-    expect(nativeBinary.test('foo.node')).toBeTruthy();
-
-    expect(react).toBeDefined();
-    expect(react.test('react')).toBeTruthy();
-    expect(react.test('react-dom')).toBeTruthy();
-    expect(react.test('scheduler')).toBeTruthy();
-    expect(react.test('use-subscription')).toBeTruthy();
+    expect(config.externals).toMatchSnapshot();
 });
 
 it('should unshift custom server externals (single)', () => {
     const options = {
-        serverExternals: 'foo',
+        serverExternals: 'added-external',
     };
 
     const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
@@ -118,13 +106,12 @@ it('should unshift custom server externals (single)', () => {
         isServer: true,
     });
 
-    expect(config.externals).toHaveLength(4);
-    expect(config.externals[0]).toBe('foo');
+    expect(config.externals[0]).toBe('added-external');
 });
 
 it('should unshift custom server externals (array)', () => {
     const options = {
-        serverExternals: ['foo', 'bar'],
+        serverExternals: ['added-external-1', 'added-external-2'],
     };
 
     const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
@@ -132,9 +119,8 @@ it('should unshift custom server externals (array)', () => {
         isServer: true,
     });
 
-    expect(config.externals).toHaveLength(5);
-    expect(config.externals[0]).toBe('foo');
-    expect(config.externals[1]).toBe('bar');
+    expect(config.externals[0]).toBe('added-external-1');
+    expect(config.externals[1]).toBe('added-external-2');
 });
 
 it('should leave externals untouched when serverless', () => {
