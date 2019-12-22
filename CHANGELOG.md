@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.2...v1.3.3) (2019-12-22)
+
+
+### Bug Fixes
+
+* compatibility with Next >= v9.1.5 ([#8](https://github.com/moxystudio/next-compile-node-modules/issues/8)) ([73166f7](https://github.com/moxystudio/next-compile-node-modules/commit/73166f799f0570dc905116efa25b6a36614669c1)), closes [/github.com/zeit/next.js/blob/d64587e1a3af11411a6c458ae9544950dfba7825/packages/next/build/webpack/loaders/next-babel-loader.js#L185](https://github.com/moxystudio//github.com/zeit/next.js/blob/d64587e1a3af11411a6c458ae9544950dfba7825/packages/next/build/webpack/loaders/next-babel-loader.js/issues/L185)
+
 ### [1.3.2](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.1...v1.3.2) (2019-11-30)
 
 
