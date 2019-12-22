@@ -45,6 +45,9 @@ it('should duplicate the default JS rule', () => {
 
     expect(rule.test.toString()).toBe('/\\.js$/');
     expect(rule.include.toString()).toMatch(/\bnode_modules\b/);
+    expect(rule.exclude.toString()).toMatch(/\bnode-libs-browser\b/);
+    expect(rule.exclude.toString()).toMatch(/\bprocess\b/);
+
     expect(rule.use.options.distDir).toBe('my-project/.next/cache/compile-node-modules-plugin');
     expect(rule.use.options.caller).toEqual({ isNodeModule: true });
 
@@ -60,7 +63,7 @@ it('should throw if the JS rule was not found', () => {
     expect(() => compileNodeModulesPlugin()().webpack(noGoodRuleConfig, webpackOptions)).toThrow(/JS rule/);
 });
 
-it('should allow to override the rule\'s test, include and exclude properties', () => {
+it('should allow to override the rule\'s test & include', () => {
     const options = {
         test: 'my-test',
         include: 'my-include',
@@ -73,7 +76,19 @@ it('should allow to override the rule\'s test, include and exclude properties', 
 
     expect(rule.test).toBe('my-test');
     expect(rule.include).toBe('my-include');
-    expect(rule.exclude).toBe('my-exclude');
+});
+
+it('should unshift rule\'s exclude conditions if any', () => {
+    const options = {
+        exclude: 'my-exclude',
+    };
+
+    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), webpackOptions);
+
+    const rule = config.module.rules[1];
+
+    expect(rule.exclude.length).toBeGreaterThan(1);
+    expect(rule.exclude[0]).toBe('my-exclude');
 });
 
 it('should call nextConfig webpack if defined', () => {
@@ -106,6 +121,7 @@ it('should unshift custom server externals (single)', () => {
         isServer: true,
     });
 
+    expect(config.externals.length).toBeGreaterThan(1);
     expect(config.externals[0]).toBe('added-external');
 });
 
@@ -119,6 +135,7 @@ it('should unshift custom server externals (array)', () => {
         isServer: true,
     });
 
+    expect(config.externals.length).toBeGreaterThan(2);
     expect(config.externals[0]).toBe('added-external-1');
     expect(config.externals[1]).toBe('added-external-2');
 });
