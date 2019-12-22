@@ -61,14 +61,16 @@ module.exports = withCSS(
 |  ---   |     ---     | ---  |   ---   |
 | test | The Webpack rule test condition | [Rule.test](https://webpack.js.org/configuration/module/#ruletest) | `/\.js$/` |
 | include | The Webpack rule include condition | [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude) | `/[\\/]node_modules[\\/]/` |
-| exclude | The Webpack rule exclude condition | [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude) | |
-| serverExternals | Prepend additional externals dependencies besides the built-in**¹** ones. This option is ignored in the client build or when target is serverless | Any [supported types](https://webpack.js.org/configuration/externals/)
+| exclude | Prepend exclusions to the Webpack rule exclude condition besides the built-in**¹** ones | [Rule.exclude](https://webpack.js.org/configuration/module/#ruleexclude) | |
+| serverExternals | Prepend additional externals dependencies besides the built-in**²** ones. This option is ignored in the client build or when target is serverless | Any [supported types](https://webpack.js.org/configuration/externals/)
 
-**¹** Built-in ones are modules related to react, preventing React from being bundled individually in each page which would cause issues such as "React Hooks would throw: Invalid Hook Call Warning".
+**¹** Built-in exclusions are Next.js and Webpack related, such as [`node-libs-browser`](https://www.npmjs.com/package/node-libs-browser) and [`process`](https://www.npmjs.com/package/node-process).
+
+**²** Built-in externals are Next.js related as well as modules associated with React. More specifically, it prevents React from being bundled individually in each page which would cause issues such as "React Hooks would throw: Invalid Hook Call Warning".
 
 ### Custom babel config
 
-If you are using a custom `babel.config.js`, you may need to identify if we are compiling a node module or not:
+If you are using a custom `babel.config.js`, you may identify if we are compiling a node module or not via `api.caller` like so:
 
 ```js
 // babel.config.js
@@ -83,12 +85,6 @@ module.exports = (api) => {
     };
 };
 ```
-
-### External dependencies
-
-We're removing the property `externals` from the `webpack` configuration in order to include external dependencies in the bundle of our applications.
-This ensures all the dependencies are compiled according to our targets.
-More information in [Webpack's documentation](https://webpack.js.org/configuration/externals/).
 
 ## Tests
 

@@ -2,6 +2,8 @@
 
 const path = require('path');
 
+const toArray = (val) => Array.isArray(val) ? val || [] : [val];
+
 const copyJsRule = (config, options, ruleOptions) => {
     const { dir, config: { distDir } } = options;
 
@@ -16,8 +18,14 @@ const copyJsRule = (config, options, ruleOptions) => {
         ...jsRule,
         test: /\.js$/, // Only assume JS files since node_modules are at least already transpiled to official JS
         include: /[\\/]node_modules[\\/]/,
-        exclude: undefined,
         ...ruleOptions,
+        exclude: [
+            ...toArray(ruleOptions.exclude),
+            // Next.js >= v9.1.5 is now inlining statements through `babel-plugin-transform-define`, see https://github.com/zeit/next.js/blob/d64587e1a3af11411a6c458ae9544950dfba7825/packages/next/build/webpack/loaders/next-babel-loader.js#L185
+            // However, the `process.browser` inlining was causing problems with Webpack builtin
+            // `node-libs-browser` (mock) and `node-process`
+            /[\\/]node_modules[/\\](node-libs-browser|process)[/\\]/,
+        ],
         use: {
             ...jsRule.use,
             options: {
