@@ -31,8 +31,8 @@
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
-    "eslint": "^5.16.0",
-    "eslint-config-moxy": "^8.1.0",
+    "@moxy/eslint-config": "^9.1.2",
+    "eslint": "^6.8.0",
     "husky": "^3.0.3",
     "jest": "^24.8.0",
     "lint-staged": "^9.2.1",
