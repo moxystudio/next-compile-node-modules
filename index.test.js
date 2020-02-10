@@ -48,7 +48,7 @@ it('should duplicate the default JS rule', () => {
     expect(rule.exclude.toString()).toMatch(/\bnode-libs-browser\b/);
     expect(rule.exclude.toString()).toMatch(/\bprocess\b/);
 
-    expect(rule.use.options.distDir).toBe('my-project/.next/cache/compile-node-modules-plugin');
+    expect(rule.use.options.distDir).toMatch(/^my-project[\\/]\.next[\\/]cache[\\/]compile-node-modules-plugin$/);
     expect(rule.use.options.caller).toEqual({ isNodeModule: true });
 
     // Test if the first rule is untouched

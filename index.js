@@ -2,7 +2,7 @@
 
 const path = require('path');
 
-const toArray = (val) => Array.isArray(val) ? val || [] : [val];
+const toArray = (val) => Array.isArray(val) ? val : [val].filter(Boolean);
 
 const copyJsRule = (config, options, ruleOptions) => {
     const { dir, config: { distDir } } = options;
