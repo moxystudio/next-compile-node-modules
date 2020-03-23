@@ -7,7 +7,7 @@ const webpackOptions = {
     isServer: false,
     config: {
         distDir: '.next',
-        experimental: {},
+        target: 'server',
     },
 };
 
@@ -45,6 +45,7 @@ it('should duplicate the default JS rule', () => {
 
     expect(rule.test.toString()).toBe('/\\.js$/');
     expect(rule.include.toString()).toMatch(/\bnode_modules\b/);
+    expect(rule.exclude.toString()).toMatch(/\/path\/to\/project/);
     expect(rule.exclude.toString()).toMatch(/\bnode-libs-browser\b/);
     expect(rule.exclude.toString()).toMatch(/\bprocess\b/);
 
@@ -102,10 +103,23 @@ it('should call nextConfig webpack if defined', () => {
     expect(config).toBe('foo');
 });
 
-it('should have pre-configured server externals', () => {
+it('should have pre-configured server externals (target = server)', () => {
     const config = compileNodeModulesPlugin()().webpack(createWebpackConfig(), {
         ...webpackOptions,
         isServer: true,
+    });
+
+    expect(config.externals).toMatchSnapshot();
+});
+
+it('should have pre-configured server externals (target = serverless-trace)', () => {
+    const config = compileNodeModulesPlugin()().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+        config: {
+            ...webpackOptions.config,
+            target: 'experimental-serverless-trace',
+        },
     });
 
     expect(config.externals).toMatchSnapshot();
@@ -148,7 +162,10 @@ it('should leave externals untouched when serverless', () => {
     const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
         ...webpackOptions,
         isServer: true,
-        target: 'serverless',
+        config: {
+            ...webpackOptions.config,
+            target: 'serverless',
+        },
     });
 
     expect(typeof config.externals).toBe('function');

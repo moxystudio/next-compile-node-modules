@@ -1,10 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should have pre-configured server externals 1`] = `
+exports[`should have pre-configured server externals (target = server) 1`] = `
 Array [
   "foo",
   /\\^\\(react\\|react-dom\\|scheduler\\|use-subscription\\)\\$/i,
   "@ampproject/toolbox-optimizer",
-  [Function],
+]
+`;
+
+exports[`should have pre-configured server externals (target = serverless-trace) 1`] = `
+Array [
+  "@ampproject/toolbox-optimizer",
 ]
 `;
