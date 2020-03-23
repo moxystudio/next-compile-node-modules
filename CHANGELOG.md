@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.5](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.3...v1.3.5) (2020-03-23)
+
+
+### Bug Fixes
+
+* fix serverless & serverless-trace builds ([7edb252](https://github.com/moxystudio/next-compile-node-modules/commit/7edb252c245989d5b94860c6c0abf7d6540f481b))
+* fix undefined in webpack config ([f695610](https://github.com/moxystudio/next-compile-node-modules/commit/f69561098dff14ee94ce9455691f275c6b429c81)), closes [#9](https://github.com/moxystudio/next-compile-node-modules/issues/9)
+
 ### [1.3.4](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.3...v1.3.4) (2020-02-10)
 
 
