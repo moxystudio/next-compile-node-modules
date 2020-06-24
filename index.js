@@ -6,8 +6,18 @@ const toArray = (val) => Array.isArray(val) ? val : [val].filter(Boolean);
 
 const copyJsRule = (config, options, ruleOptions) => {
     const { dir, config: { distDir } } = options;
+    let jsRuleUse;
 
-    const jsRuleIndex = config.module.rules.findIndex((rule) => rule.use && /\bnext-babel-loader\b/.test(rule.use.loader));
+    const jsRuleIndex = config.module.rules.findIndex((rule) => {
+        const ruleUse = toArray(rule.use);
+
+        return ruleUse.find((use) => {
+            jsRuleUse = use;
+
+            return /\bnext-babel-loader\b/.test(use.loader);
+        });
+    });
+
     const jsRule = config.module.rules[jsRuleIndex];
 
     if (!jsRule) {
@@ -29,14 +39,14 @@ const copyJsRule = (config, options, ruleOptions) => {
             /[\\/]node_modules[/\\](node-libs-browser|process)[/\\]/,
         ],
         use: {
-            ...jsRule.use,
+            ...jsRuleUse,
             options: {
-                ...jsRule.use.options,
+                ...jsRuleUse.options,
                 // Force a different cacheDirectory because there's no way to add `isNodeModule` to the cacheIdentifier
                 distDir: path.join(dir, distDir, 'cache', 'compile-node-modules-plugin'),
                 // Add `isNodeModule` to the caller so that it's accessible in babel.config.js
                 caller: {
-                    ...jsRule.use.options.caller,
+                    ...jsRuleUse.options.caller,
                     isNodeModule: true,
                 },
             },
