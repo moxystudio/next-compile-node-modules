@@ -6,7 +6,7 @@ const toArray = (val) => Array.isArray(val) ? val : [val].filter(Boolean);
 
 const copyJsRule = (config, options, ruleOptions) => {
     const { dir, config: { distDir } } = options;
-    let jsRuleUse = {};
+    let jsRuleUse;
 
     const jsRuleIndex = config.module.rules.findIndex((rule) => {
         const ruleUse = toArray(rule.use);
