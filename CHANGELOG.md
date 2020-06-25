@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.6](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.5...v1.3.6) (2020-06-25)
+
+
+### Bug Fixes
+
+* deal with use rule being an array ([#10](https://github.com/moxystudio/next-compile-node-modules/issues/10)) ([f253108](https://github.com/moxystudio/next-compile-node-modules/commit/f253108fe1b53f74bace97b726e64abf9fb8b503))
+
 ### [1.3.5](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.3...v1.3.5) (2020-03-23)
 
 
