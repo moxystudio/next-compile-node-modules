@@ -12,11 +12,6 @@ const webpackOptions = {
 };
 
 const createWebpackConfig = () => ({
-    resolve: {
-        alias: {
-            foo: 'bar',
-        },
-    },
     module: {
         rules: [
             {

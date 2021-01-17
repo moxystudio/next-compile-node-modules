@@ -70,18 +70,34 @@ const withCompileNodeModules = (options = {}) => {
 
             if (isServer) {
                 if (isTargetServer) {
+                    const nextExternal = config.externals[0];
+
                     config.externals = [
                         ...Array.isArray(serverExternals) ? serverExternals : [serverExternals],
-                        // Prevent multiple router provider/context and config modules from being present in the same process,
-                        // leading to subtle errors
-                        ...Object.keys(config.resolve.alias),
                         // This is needed since Next.js requires the React to be the same instance in every page
                         // Otherwise, React would be injected individually in every page and using React Hooks would throw:
                         // Invalid Hook Call Warning (https://reactjs.org/warnings/invalid-hook-call-warning.html)
                         // Regex copied from https://github.com/zeit/next.js/blob/154d78461ce2598d6e12343b452b45071a323d11/packages/next/build/webpack-config.ts#L295
-                        /^(react|react-dom|scheduler|use-subscription)$/i,
+                        /^(react|react-dom|scheduler|prop-types|use-subscription)$/i,
                         // Copied from https://github.com/zeit/next.js/blob/7fce52b90539203a8f9e9f5f1423397660d5a8f5/packages/next/build/webpack-config.ts#L565
                         '@ampproject/toolbox-optimizer',
+                        (...args) => {
+                            const argsWithoutCallback = args.slice(0, -1);
+                            const callback = args[args.length - 1];
+
+                            nextExternal(
+                                ...argsWithoutCallback,
+                                (err, external) => {
+                                    const module = external && external.match(/[a-z0-9]+ (.+)/i)?.[1];
+
+                                    if (module?.startsWith('next/')) {
+                                        callback(err, external);
+                                    } else {
+                                        callback();
+                                    }
+                                },
+                            );
+                        },
                     ];
                 } else if (isTargetServerlessTrace) {
                     config.externals = [

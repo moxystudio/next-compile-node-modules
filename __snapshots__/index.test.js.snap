@@ -2,9 +2,9 @@
 
 exports[`should have pre-configured server externals (target = server) 1`] = `
 Array [
-  "foo",
-  /\\^\\(react\\|react-dom\\|scheduler\\|use-subscription\\)\\$/i,
+  /\\^\\(react\\|react-dom\\|scheduler\\|prop-types\\|use-subscription\\)\\$/i,
   "@ampproject/toolbox-optimizer",
+  [Function],
 ]
 `;
 
