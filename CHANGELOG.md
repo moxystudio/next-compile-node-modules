@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.6...v2.0.0) (2021-01-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* might not work with next < 10
+
+### Bug Fixes
+
+* add compatibility with next 10 ([19b7a05](https://github.com/moxystudio/next-compile-node-modules/commit/19b7a054e2fb0c4428802c73a5026326c2315bd4))
+
 ### [1.3.6](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.5...v1.3.6) (2020-06-25)
 
 
