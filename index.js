@@ -88,9 +88,9 @@ const withCompileNodeModules = (options = {}) => {
                             nextExternal(
                                 ...argsWithoutCallback,
                                 (err, external) => {
-                                    const module = external && external.match(/[a-z0-9]+ (.+)/i)?.[1];
+                                    const module = external && external.match(/[a-z0-9]+ (.+)/i);
 
-                                    if (module?.startsWith('next/')) {
+                                    if (module && module[1].startsWith('next/')) {
                                         callback(err, external);
                                     } else {
                                         callback();
