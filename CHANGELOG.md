@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/moxystudio/next-compile-node-modules/compare/v2.0.0...v2.0.1) (2021-01-18)
+
+
+### Bug Fixes
+
+* avoid using optional chaining because of node 12 compat ([4840003](https://github.com/moxystudio/next-compile-node-modules/commit/484000354ba4b320bcfbea0a740574d365cd7183))
+
 ## [2.0.0](https://github.com/moxystudio/next-compile-node-modules/compare/v1.3.6...v2.0.0) (2021-01-17)
 
 

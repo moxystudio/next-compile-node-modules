@@ -1,6 +1,6 @@
 {
   "name": "@moxy/next-compile-node-modules",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Next.js plugin to compile all node_modules using Babel",
   "author": "André Cruz <andre@moxy.studio>",
   "main": "index.js",
