@@ -62,7 +62,7 @@ const withCompileNodeModules = (options = {}) => {
     return (nextConfig = {}) => ({
         ...nextConfig,
         webpack: (config, options) => {
-            const { isServer, config: { target } } = options;
+            const { isServer, config: { target, experimental } } = options;
             const isTargetServer = target === 'server';
             const isTargetServerlessTrace = target.includes('serverless-trace');
 
@@ -93,7 +93,7 @@ const withCompileNodeModules = (options = {}) => {
                                     if (module && module[1].startsWith('next/')) {
                                         callback(err, external);
                                     } else {
-                                        callback();
+                                        callback(err);
                                     }
                                 },
                             );
@@ -102,8 +102,9 @@ const withCompileNodeModules = (options = {}) => {
                 } else if (isTargetServerlessTrace) {
                     config.externals = [
                         ...Array.isArray(serverExternals) ? serverExternals : [serverExternals],
-                        // Copied from https://github.com/zeit/next.js/blob/7fce52b90539203a8f9e9f5f1423397660d5a8f5/packages/next/build/webpack-config.ts#L565
+                        // Copied from https://github.com/vercel/next.js/blob/b02df3f487ba6fbd9ba9bcd823c77a7b5391fc73/packages/next/build/webpack-config.ts#L761
                         '@ampproject/toolbox-optimizer',
+                        ...(experimental && experimental.optimizeCss ? [] : ['critters']),
                     ];
                 }
             }

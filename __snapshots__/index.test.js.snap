@@ -11,5 +11,6 @@ Array [
 exports[`should have pre-configured server externals (target = serverless-trace) 1`] = `
 Array [
   "@ampproject/toolbox-optimizer",
+  "critters",
 ]
 `;

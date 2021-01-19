@@ -120,7 +120,7 @@ it('should have pre-configured server externals (target = serverless-trace)', ()
     expect(config.externals).toMatchSnapshot();
 });
 
-it('should unshift custom server externals (single)', () => {
+it('should unshift custom server externals (target = server, single)', () => {
     const options = {
         serverExternals: 'added-external',
     };
@@ -134,7 +134,7 @@ it('should unshift custom server externals (single)', () => {
     expect(config.externals[0]).toBe('added-external');
 });
 
-it('should unshift custom server externals (array)', () => {
+it('should unshift custom server externals (target = server, array)', () => {
     const options = {
         serverExternals: ['added-external-1', 'added-external-2'],
     };
@@ -147,6 +147,59 @@ it('should unshift custom server externals (array)', () => {
     expect(config.externals.length).toBeGreaterThan(2);
     expect(config.externals[0]).toBe('added-external-1');
     expect(config.externals[1]).toBe('added-external-2');
+});
+
+it('should unshift custom server externals (target = serverless-trace, single)', () => {
+    const options = {
+        serverExternals: 'added-external',
+    };
+
+    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+        config: {
+            ...webpackOptions.config,
+            target: 'experimental-serverless-trace',
+        },
+    });
+
+    expect(config.externals.length).toBeGreaterThan(1);
+    expect(config.externals[0]).toBe('added-external');
+});
+
+it('should unshift custom server externals (target = serverless-trace, array)', () => {
+    const options = {
+        serverExternals: ['added-external-1', 'added-external-2'],
+    };
+
+    const config = compileNodeModulesPlugin(options)().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+        config: {
+            ...webpackOptions.config,
+            target: 'experimental-serverless-trace',
+        },
+    });
+
+    expect(config.externals.length).toBeGreaterThan(2);
+    expect(config.externals[0]).toBe('added-external-1');
+    expect(config.externals[1]).toBe('added-external-2');
+});
+
+it('should not add "critters" to server externals (target = serverless-trace, experimental.optimizeCss enabled)', () => {
+    const config = compileNodeModulesPlugin()().webpack(createWebpackConfig(), {
+        ...webpackOptions,
+        isServer: true,
+        config: {
+            ...webpackOptions.config,
+            target: 'experimental-serverless-trace',
+            experimental: {
+                optimizeCss: true,
+            },
+        },
+    });
+
+    expect(config.externals).not.toContain('critters');
 });
 
 it('should leave externals untouched when serverless', () => {
