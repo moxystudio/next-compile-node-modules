@@ -43,13 +43,22 @@ const copyJsRule = (config, options, ruleOptions) => {
             // However, the `process.browser` inlining was causing problems with Webpack builtin
             // `node-libs-browser` (mock) and `node-process`
             /[\\/]node_modules[/\\](node-libs-browser|process)[/\\]/,
+            // No need to compile React because it's already using compatible JS syntax.
+            /[\\/]node_modules[/\\](react|react-dom|scheduler|prop-types|use-subscription)[/\\]/i,
         ],
         use: [
-            ...jsRuleUse,
+            // Remove react-refresh-utils from the use rules.
+            ...jsRuleUse.filter((entry) => {
+                const loader = entry.loader || entry;
+
+                return !(typeof loader === 'string' && loader.includes('react-refresh-utils'));
+            }),
             {
                 ...lastJsRuleUse,
                 options: {
                     ...lastJsRuleUse.options,
+                    // Disable react refresh, otherwise it will throw errors "module not defined".
+                    hasReactRefresh: false,
                     // Force a different cacheDirectory because there's no way to add `isNodeModule` to the cacheIdentifier
                     distDir: path.join(dir, distDir, 'cache', 'compile-node-modules-plugin'),
                     // Add `isNodeModule` to the caller so that it's accessible in babel.config.js
@@ -114,7 +123,7 @@ const withCompileNodeModules = (options = {}) => {
                                         }
                                     },
                                 );
-                            // // Webpack > 4.
+                            // Webpack > 4.
                             } else {
                                 return nextExternal(...args)
                                     .then((result) => {

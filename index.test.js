@@ -42,9 +42,7 @@ const createWebpackConfigGT10 = () => ({
                 include: ['/path/to/project'],
                 exclude: () => {},
                 use: [
-                    {
-                        loader: '@next/react-refresh-utils/loader',
-                    },
+                    '@next/react-refresh-utils/loader',
                     {
                         loader: 'next-babel-loader',
                         options: {
@@ -88,10 +86,10 @@ it('should duplicate the default JS rule (webpack > 10)', () => {
     expect(rule.exclude.toString()).toMatch(/\/path\/to\/project/);
     expect(rule.exclude.toString()).toMatch(/\bnode-libs-browser\b/);
     expect(rule.exclude.toString()).toMatch(/\bprocess\b/);
-    expect(rule.use).toHaveLength(2);
-    expect(rule.use[0]).toEqual({ loader: '@next/react-refresh-utils/loader' });
-    expect(rule.use[1].options.distDir).toMatch(/^my-project[\\/]\.next[\\/]cache[\\/]compile-node-modules-plugin$/);
-    expect(rule.use[1].options.caller).toEqual({ isNodeModule: true });
+    expect(rule.use).toHaveLength(1);
+    expect(rule.use[0].options.hasReactRefresh).toBe(false);
+    expect(rule.use[0].options.distDir).toMatch(/^my-project[\\/]\.next[\\/]cache[\\/]compile-node-modules-plugin$/);
+    expect(rule.use[0].options.caller).toEqual({ isNodeModule: true });
 
     // Test if the first rule is untouched
     expect(config.module.rules[0].include).toEqual(['/path/to/project']);
