@@ -1,12 +1,12 @@
 # next-compile-node-modules
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][build-status-image]][build-status-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependency status][david-dm-image]][david-dm-url] [![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url]
 
 [npm-url]:https://npmjs.org/package/@moxy/next-compile-node-modules
 [downloads-image]:https://img.shields.io/npm/dm/@moxy/next-compile-node-modules.svg
 [npm-image]:https://img.shields.io/npm/v/@moxy/next-compile-node-modules.svg
-[travis-url]:https://travis-ci.org/moxystudio/next-compile-node-modules
-[travis-image]:https://img.shields.io/travis/moxystudio/next-compile-node-modules/master.svg
+[build-status-url]:https://github.com/moxystudio/next-compile-node-modules/actions
+[build-status-image]:https://img.shields.io/github/workflow/status/moxystudio/next-compile-node-modules/Node%20CI/master
 [codecov-url]:https://codecov.io/gh/moxystudio/next-compile-node-modules
 [codecov-image]:https://img.shields.io/codecov/c/github/moxystudio/next-compile-node-modules/master.svg
 [david-dm-url]:https://david-dm.org/moxystudio/next-compile-node-modules
