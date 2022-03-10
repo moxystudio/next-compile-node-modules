@@ -40,6 +40,6 @@
     "standard-version": "^9.3.0"
   },
   "peerDependencies": {
-    "next": ">=10 <=11"
+    "next": ">=10 <13"
   }
 }
